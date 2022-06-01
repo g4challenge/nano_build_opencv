@@ -1,23 +1,34 @@
 # OpenCV build script for Tegra
 
 This script builds OpenCV from source on Tegra (Nano, NX, AGX, etc.).
+This is the Docker branch. A build is available
+[here on Docker Hub](https://hub.docker.com/r/mdegans/tegra-opencv).
 
-Related thread on Nvidia developer forum 
-[here](https://devtalk.nvidia.com/default/topic/1051133/jetson-nano/opencv-build-script/).
-
-[How it Works](https://wiki.debian.org/QemuUserEmulation)
-
-## Usage:
+## Running pre-built image:
 ```shell
-./build_opencv.sh
+(sudo) docker run --runtime nvidia -it --rm mdegans/tegra-opencv:latest
 ```
 
-## Specifying an OpenCV version (git branch)
+## Building:
+
+On all tegra boards:
 ```shell
-./build_opencv.sh 4.4.0
+(sudo) ./docker_build.sh
 ```
 
-Where `4.4.0` is any version of openCV from 2.2 to 4.4.0
-(any valid OpenCV git branch or tag will also attempt to work, however the very old versions have not been tested to build and may require spript modifications.).
+## Specifying an OpenCV version (git branch):
 
-**JetPack 4.4 NOTE:** the minimum version that will build correctly on JetPack 4.4 GA is 4.4.0. Prior versions of JetPack may need the CUDNN version adjusted (the `-D CUDNN_VERSION='8.0'` line can simply be removed).
+Just change JETPACK_VERSION and OPENCV_VERSION as needed in the docker_build.sh
+
+## Other --build-arg options:
+
+For those who want to modify the Dockerfile or use other `--build-arg` options, there are these:
+
+```Dockerfile
+# Performs tests:
+ARG OPENCV_DO_TEST="FALSE"
+# Number of cores to use to build (1 is recommend on Nano unless you have a swapfile mounted. More will use more memory)
+# 8 is recommended on Xavier
+ARG OPENCV_BUILD_JOBS="1"
+```
+
