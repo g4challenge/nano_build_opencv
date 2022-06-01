@@ -1,6 +1,6 @@
-ARG JETPACK_VERSION="r32.5.0"
+ARG JETPACK_VERSION="r34.1.1"
 
-FROM registry.hub.docker.com/mdegans/l4t-base:${JETPACK_VERSION}
+FROM nvcr.io/nvidia/nvidia-l4t-base:${JETPACK_VERSION}
 
 ### build argumements ###
 # change these here or with --build-arg FOO="BAR" at build time
